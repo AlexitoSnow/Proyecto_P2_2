@@ -1,0 +1,26 @@
+.board .button {
+    -fx-max-width: Infinity;
+    -fx-max-height: Infinity;
+    -fx-background-color: transparent;
+    -fx-opacity: 1;
+}
+
+.board .button:disabled {
+    -fx-opacity: 1;
+    -fx-background-color: transparent;
+}
+
+.bottom-border {
+    -fx-border-color: black;
+    -fx-border-width: 0 0 2px 0; /* Solo el borde inferior */
+}
+
+.right-border {
+    -fx-border-color: black;
+    -fx-border-width: 0 2px 0 0; /* Solo el borde derecho */
+}
+
+.bottom-right-border {
+    -fx-border-color: black;
+    -fx-border-width: 0 2px 2px 0; /* Solo el borde inferior y derecho */
+}
