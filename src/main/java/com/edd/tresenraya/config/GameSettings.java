@@ -9,6 +9,7 @@ public class GameSettings {
     private Player player2;
     private boolean computerStarts;
     private boolean twoPlayers;
+    private boolean iaVsIa;
 
     private GameSettings() {}
 
@@ -51,10 +52,19 @@ public class GameSettings {
         this.twoPlayers = twoPlayers;
     }
 
+    public boolean isIaVsIa() {
+        return iaVsIa;
+    }
+
+    public void setIaVsIa(boolean iaVsIa) {
+        this.iaVsIa = iaVsIa;
+    }
+
     public void reset() {
         player1 = null;
         player2 = null;
         computerStarts = false;
         twoPlayers = false;
+        iaVsIa = false;
     }
 }

@@ -4,8 +4,9 @@ import com.edd.tresenraya.config.GameSettings;
 import com.edd.tresenraya.config.router.AppRouter;
 import com.edd.tresenraya.config.router.Routes;
 import com.edd.tresenraya.core.Player;
-import com.edd.tresenraya.core.ai.GameState;
 import com.edd.tresenraya.core.ai.AI;
+import com.edd.tresenraya.core.ai.GameState;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -17,6 +18,8 @@ import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GameScreen implements Initializable {
 
@@ -32,15 +35,17 @@ public class GameScreen implements Initializable {
 
     private GameSettings settings = GameSettings.getInstance();
     private boolean gameEnded = false;
+    private boolean isAIvsAI;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         player1 = settings.getPlayer1();
         player2 = settings.getPlayer2();
+            isAIvsAI = settings.isIaVsIa();
+        current = settings.isComputerStarts()
+                ? (player1.getName().equals("Computer") || player1.getName().startsWith("IA") ? player1 : player2)
+                : (player1.getName().equals("Computer") || player1.getName().startsWith("IA") ? player2 : player1);
 
-        boolean isTwoPlayers = settings.isTwoPlayers();
-
-        current = settings.isComputerStarts() ? player1 : player2;
         currentPlayer.setText("Turno de: " + current.getName());
 
         board.getChildren().forEach(node -> {
@@ -50,7 +55,7 @@ public class GameScreen implements Initializable {
                 button.setDisable(false);
 
                 button.setOnAction(event -> {
-                    if (gameEnded || !button.getText().isEmpty()) return;
+                    if (gameEnded || !button.getText().isEmpty() || isAIvsAI) return;
 
                     button.setText(current.getSymbol().toString());
                     button.setDisable(true);
@@ -66,24 +71,44 @@ public class GameScreen implements Initializable {
                     }
 
                     switchTurn();
-
-                    if (!isTwoPlayers && current.getName().equals("Computer")) {
-                        playComputerMove();
+                    if (current.getName().startsWith("IA") || current.getName().equals("Computer")) {
+                        scheduleAIMove();
                     }
                 });
             }
         });
 
-        // Si la computadora inicia, hacer su jugada
-        if (!isTwoPlayers && current.getName().equals("Computer")) {
-            playComputerMove();
+        if (isAIvsAI || current.getName().startsWith("IA") || current.getName().equals("Computer")) {
+            scheduleAIMove();
         }
     }
 
-    private void playComputerMove() {
+    private void scheduleAIMove() {
+        setBoardEnabled(false); // Bloquea el tablero antes de que la IA piense
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    if (!gameEnded && (current.getName().startsWith("IA") || current.getName().equals("Computer"))) {
+                        playComputerMove(getAIDepth(current));
+                        setBoardEnabled(true); // Habilita el tablero después de que la IA juegue
+                    }
+                });
+            }
+        }, 600);
+    }
+
+    private int getAIDepth(Player ai) {
+        // Retorna una profundidad aleatoria entre 2 y 4
+        return 2 + (int)(Math.random() * 3); // 2, 3 o 4
+    }
+
+    private void playComputerMove(int depth) {
         char[][] currentBoard = extractCurrentBoard();
         GameState state = new GameState(currentBoard, current.getSymbol());
-        int[] move = AI.bestMove(state, current.getSymbol());
+        int[] move = AI.bestMove(state, current.getSymbol(), depth);
 
         if (move != null) {
             placeSymbolOnBoard(move[0], move[1], current.getSymbol().toString());
@@ -99,6 +124,10 @@ public class GameScreen implements Initializable {
             }
 
             switchTurn();
+
+            if (isAIvsAI || current.getName().startsWith("IA") || current.getName().equals("Computer")) {
+                scheduleAIMove();
+            }
         }
     }
 
@@ -168,35 +197,39 @@ public class GameScreen implements Initializable {
         for (int i = 0; i < 3; i++) {
             if (symbol.equals(buttons[i][0].getText()) &&
                     symbol.equals(buttons[i][1].getText()) &&
-                    symbol.equals(buttons[i][2].getText()))
-                return true;
+                    symbol.equals(buttons[i][2].getText())) return true;
 
             if (symbol.equals(buttons[0][i].getText()) &&
                     symbol.equals(buttons[1][i].getText()) &&
-                    symbol.equals(buttons[2][i].getText()))
-                return true;
+                    symbol.equals(buttons[2][i].getText())) return true;
         }
 
         if (symbol.equals(buttons[0][0].getText()) &&
                 symbol.equals(buttons[1][1].getText()) &&
-                symbol.equals(buttons[2][2].getText()))
-            return true;
+                symbol.equals(buttons[2][2].getText())) return true;
 
         if (symbol.equals(buttons[0][2].getText()) &&
                 symbol.equals(buttons[1][1].getText()) &&
-                symbol.equals(buttons[2][0].getText()))
-            return true;
+                symbol.equals(buttons[2][0].getText())) return true;
 
         return false;
     }
 
     private boolean isBoardFull() {
         for (Node node : board.getChildren()) {
-            if (node instanceof Button) {
-                Button btn = (Button) node;
-                if (btn.getText().isEmpty()) return false;
+            if (node instanceof Button && ((Button) node).getText().isEmpty()) {
+                return false;
             }
         }
         return true;
+    }
+    private void setBoardEnabled(boolean enabled) {
+        for (Node node : board.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                // Solo habilita botones vacíos si enabled == true
+                button.setDisable(!enabled || !button.getText().isEmpty());
+            }
+        }
     }
 }

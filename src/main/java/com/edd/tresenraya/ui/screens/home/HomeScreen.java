@@ -8,41 +8,54 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
+import javafx.fxml.Initializable;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class HomeScreen {
+public class HomeScreen implements Initializable{
 
-    @FXML
-    private ToggleButton oButton;
+    @FXML private ToggleButton xButton;
+    @FXML private ToggleButton oButton;
+    @FXML private Button startPlayerButton;
 
-    @FXML
-    private Button startPlayerButton;
-
-    @FXML
-    private ToggleButton xButton;
-
-    @FXML
-    private ToggleButton vsComputerButton;
-
-    @FXML
-    private ToggleButton vsPlayerButton;
+    @FXML private ToggleButton vsComputerButton;
+    @FXML private ToggleButton vsPlayerButton;
+    @FXML private ToggleButton vsAiButton;
 
     private GameSettings settings = GameSettings.getInstance();
 
     @FXML
     void navigateToPlay(ActionEvent event) {
         char selectedSymbol = xButton.isSelected() ? 'X' : 'O';
-        boolean twoPlayers = vsPlayerButton.isSelected(); // se usa botón no checkbox
-        boolean humanStarts = startPlayerButton.getText().equals("Human") || startPlayerButton.getText().equals("Player 1");
+        boolean humanStarts = startPlayerButton.getText().equals("Human");
 
-        settings.setTwoPlayers(twoPlayers);
+        // Configuración IA vs IA
+        if (vsAiButton.isSelected()) {
+            settings.setIaVsIa(true);
+            settings.setTwoPlayers(false);
+            settings.setComputerStarts(true); // Por defecto IA1 empieza
 
-        if (twoPlayers) {
-            Player player1 = new Player("Player 1", selectedSymbol);
-            Player player2 = new Player("Player 2", selectedSymbol == 'X' ? 'O' : 'X');
-            settings.setPlayer1(player1);
-            settings.setPlayer2(player2);
+            Player ai1 = new Player("IA 1", selectedSymbol);
+            Player ai2 = new Player("IA 2", selectedSymbol == 'X' ? 'O' : 'X');
+            settings.setPlayer1(ai1);
+            settings.setPlayer2(ai2);
+
+        } else if (vsPlayerButton.isSelected()) {
+            // Modo 2 jugadores
+            settings.setIaVsIa(false);
+            settings.setTwoPlayers(true);
             settings.setComputerStarts(false);
+
+            Player p1 = new Player("Player 1", selectedSymbol);
+            Player p2 = new Player("Player 2", selectedSymbol == 'X' ? 'O' : 'X');
+            settings.setPlayer1(p1);
+            settings.setPlayer2(p2);
+
         } else {
+            // Jugador vs Computadora
+            settings.setIaVsIa(false);
+            settings.setTwoPlayers(false);
+
             Player human = new Player("Human", selectedSymbol);
             Player computer = new Player("Computer", selectedSymbol == 'X' ? 'O' : 'X');
 
@@ -73,47 +86,46 @@ public class HomeScreen {
 
     @FXML
     void toggleStartPlayer(ActionEvent event) {
-        String currentText = startPlayerButton.getText();
-        if (vsPlayerButton.isSelected()) {
-            // PvP: toggle between Player 1 and Player 2
-            if (currentText.equals("Player 1")) {
-                startPlayerButton.setText("Player 2");
-            } else {
-                startPlayerButton.setText("Player 1");
-            }
+        if (startPlayerButton.getText().equals("Human")) {
+            startPlayerButton.setText("Computer");
         } else {
-            // PvC: toggle between Human and Computer
-            if (currentText.equals("Human")) {
-                startPlayerButton.setText("Computer");
-            } else {
-                startPlayerButton.setText("Human");
-            }
+            startPlayerButton.setText("Human");
         }
     }
 
     @FXML
     void selectGameMode(ActionEvent event) {
-        // Solo permitir seleccionar uno (como un ToggleGroup manual)
-        if (event.getSource() == vsComputerButton) {
-            vsComputerButton.setSelected(true);
+        Object source = event.getSource();
+
+        if (source == vsAiButton) {
+            vsAiButton.setSelected(true);
             vsPlayerButton.setSelected(false);
-            startPlayerButton.setText("Human");
-        } else if (event.getSource() == vsPlayerButton) {
+            vsComputerButton.setSelected(false);
+            startPlayerButton.setDisable(true);
+        } else if (source == vsPlayerButton) {
+            vsAiButton.setSelected(false);
             vsPlayerButton.setSelected(true);
             vsComputerButton.setSelected(false);
-            startPlayerButton.setText("Player 1");
+            startPlayerButton.setDisable(false);
+        } else if (source == vsComputerButton) {
+            vsAiButton.setSelected(false);
+            vsPlayerButton.setSelected(false);
+            vsComputerButton.setSelected(true);
+            startPlayerButton.setDisable(false);
         }
     }
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        //  Resetea todo al volver a la pantalla de inicio
+        GameSettings.getInstance().reset();
 
-    @FXML
-    void initialize() {
-        // Estado inicial del UI
-        oButton.setSelected(true);
-        xButton.setSelected(false);
-
-        vsComputerButton.setSelected(true);
-        vsPlayerButton.setSelected(false);
+        // Asegura que un símbolo esté seleccionado por defecto (opcional)
+        xButton.setSelected(true);
+        oButton.setSelected(false);
 
         startPlayerButton.setText("Human");
+        startPlayerButton.setDisable(false);
     }
 }
+
+
