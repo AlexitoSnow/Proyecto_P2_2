@@ -7,6 +7,7 @@ public class GameSettings {
     private static GameSettings instance;
     private Player player1;
     private Player player2;
+    private boolean computerStarts; // Nuevo flag para indicar quién inicia
 
     private GameSettings() {}
 
@@ -33,8 +34,18 @@ public class GameSettings {
         this.player2 = player2;
     }
 
+    // Getter y setter para computerStarts
+    public boolean isComputerStarts() {
+        return computerStarts;
+    }
+
+    public void setComputerStarts(boolean computerStarts) {
+        this.computerStarts = computerStarts;
+    }
+
     public void reset() {
         player1 = null;
         player2 = null;
+        computerStarts = false;
     }
 }

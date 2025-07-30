@@ -24,12 +24,22 @@ public class HomeScreen {
 
     @FXML
     void navigateToPlay(ActionEvent event) {
+        // Crear jugador humano con símbolo seleccionado
         Player human = new Player("Human", xButton.isSelected() ? 'X' : 'O');
         Player computer = new Player("Computer", human.getSymbol() == 'X' ? 'O' : 'X');
 
-        settings.setPlayer1(startPlayerButton.getText().equals("Human") ? human : computer);
-        settings.setPlayer2(startPlayerButton.getText().equals("Human") ? computer : human);
+        // Asignar player1 y player2 según quién inicia
+        if (startPlayerButton.getText().equals("Human")) {
+            settings.setPlayer1(human);
+            settings.setPlayer2(computer);
+            settings.setComputerStarts(false);
+        } else {
+            settings.setPlayer1(computer);
+            settings.setPlayer2(human);
+            settings.setComputerStarts(true);
+        }
 
+        // Ir a pantalla de juego
         AppRouter.setRoot(Routes.GAME);
     }
 
@@ -52,6 +62,4 @@ public class HomeScreen {
             startPlayerButton.setText("Human");
         }
     }
-
-
 }
