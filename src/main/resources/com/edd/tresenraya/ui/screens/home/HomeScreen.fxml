@@ -33,8 +33,8 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="¿Quién comienza?" GridPane.rowIndex="1" />
                   <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectSymbol" text="X" fx:id="xButton" />
-                  <ToggleButton fx:id="oButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectSymbol" text="O" GridPane.columnIndex="1" />
-                  <Button fx:id="startPlayerButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#toggleStartPlayer" text="X" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <ToggleButton fx:id="oButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectSymbol" text="O" GridPane.columnIndex="1" selected="true" />
+                  <Button fx:id="startPlayerButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#toggleStartPlayer" text="Computer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </children>

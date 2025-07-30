@@ -53,7 +53,6 @@ public class AppRouter {
             FXMLLoader loader = loadFXML(route);
             Parent root = loader.load();
             scene.setRoot(root);
-
         } catch (Exception e) {
             log.log(Level.SEVERE, "Error al cargar FXML o establecer la raíz para " + route, e);
             e.printStackTrace();

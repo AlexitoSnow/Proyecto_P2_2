@@ -15,7 +15,7 @@
       <HBox maxWidth="1.7976931348623157E308" spacing="8.0" BorderPane.alignment="CENTER">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Turno:" />
-            <Label fx:id="currentPlayer" text="X" />
+            <Label fx:id="currentPlayer"/>
          </children>
       </HBox>
    </top>
