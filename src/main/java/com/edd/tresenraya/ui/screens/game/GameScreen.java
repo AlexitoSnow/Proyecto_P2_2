@@ -26,21 +26,21 @@ public class GameScreen implements Initializable {
     @FXML
     private Label currentPlayer;
 
-    private Player humanPlayer;
-    private Player computerPlayer;
-
+    private Player player1;
+    private Player player2;
     private Player current;
+
     private GameSettings settings = GameSettings.getInstance();
     private boolean gameEnded = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        humanPlayer = settings.getPlayer1();
-        computerPlayer = settings.getPlayer2();
+        player1 = settings.getPlayer1();
+        player2 = settings.getPlayer2();
 
-        // Determinar quién inicia con el flag en GameSettings
-        current = settings.isComputerStarts() ? computerPlayer : humanPlayer;
+        boolean isTwoPlayers = settings.isTwoPlayers();
 
+        current = settings.isComputerStarts() ? player1 : player2;
         currentPlayer.setText("Turno de: " + current.getName());
 
         board.getChildren().forEach(node -> {
@@ -67,7 +67,7 @@ public class GameScreen implements Initializable {
 
                     switchTurn();
 
-                    if (current == computerPlayer) {
+                    if (!isTwoPlayers && current.getName().equals("Computer")) {
                         playComputerMove();
                     }
                 });
@@ -75,21 +75,21 @@ public class GameScreen implements Initializable {
         });
 
         // Si la computadora inicia, hacer su jugada
-        if (current == computerPlayer) {
+        if (!isTwoPlayers && current.getName().equals("Computer")) {
             playComputerMove();
         }
     }
 
     private void playComputerMove() {
         char[][] currentBoard = extractCurrentBoard();
-        GameState state = new GameState(currentBoard, computerPlayer.getSymbol());
-        int[] move = AI.bestMove(state, computerPlayer.getSymbol());
+        GameState state = new GameState(currentBoard, current.getSymbol());
+        int[] move = AI.bestMove(state, current.getSymbol());
 
         if (move != null) {
-            placeSymbolOnBoard(move[0], move[1], computerPlayer.getSymbol().toString());
+            placeSymbolOnBoard(move[0], move[1], current.getSymbol().toString());
 
-            if (checkWinner(computerPlayer.getSymbol().toString())) {
-                endGame("¡" + computerPlayer.getName() + " gana!");
+            if (checkWinner(current.getSymbol().toString())) {
+                endGame("¡" + current.getName() + " gana!");
                 return;
             }
 
@@ -137,7 +137,7 @@ public class GameScreen implements Initializable {
     }
 
     private void switchTurn() {
-        current = (current == humanPlayer) ? computerPlayer : humanPlayer;
+        current = (current == player1) ? player2 : player1;
         currentPlayer.setText("Turno de: " + current.getName());
     }
 

@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -10,41 +11,49 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edd.tresenraya.ui.screens.home.HomeScreen">
-   <center>
-      <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="8.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button mnemonicParsing="false" onAction="#navigateToPlay" prefHeight="100.0" prefWidth="200.0" text="¡JUGAR!">
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Button>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Elije tu símbolo" />
-            <GridPane alignment="CENTER" hgap="8.0" maxWidth="600.0" vgap="9.0" VBox.vgrow="NEVER">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="¿Quién comienza?" GridPane.rowIndex="1" />
-                  <ToggleButton maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectSymbol" text="X" fx:id="xButton" />
-                  <ToggleButton fx:id="oButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectSymbol" text="O" GridPane.columnIndex="1" selected="true" />
-                  <Button fx:id="startPlayerButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#toggleStartPlayer" text="Computer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-               </children>
-            </GridPane>
-         </children>
-      </VBox>
-   </center>
-   <top>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3 EN RAYA" textAlignment="CENTER" wrappingWidth="236.380859375" BorderPane.alignment="CENTER">
-         <font>
-            <Font size="40.0" />
-         </font>
-      </Text>
-   </top>
+    <center>
+        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="8.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#navigateToPlay" prefHeight="100.0" prefWidth="200.0" text="¡JUGAR!">
+                    <font>
+                        <Font size="30.0" />
+                    </font>
+                </Button>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Elige tu símbolo" />
+                <GridPane alignment="CENTER" hgap="8.0" maxWidth="600.0" vgap="9.0" VBox.vgrow="NEVER">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <!-- Símbolos -->
+                        <ToggleButton fx:id="xButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectSymbol" text="X" />
+                        <ToggleButton fx:id="oButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#selectSymbol" text="O" GridPane.columnIndex="1" selected="true" />
+
+                        <!-- Quién comienza -->
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="¿Quién comienza?" GridPane.rowIndex="1" />
+                        <Button fx:id="startPlayerButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#toggleStartPlayer" text="Computer" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                        <!-- Tipo de juego -->
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Modo de juego:" GridPane.rowIndex="2" />
+                        <ToggleButton fx:id="vsComputerButton" text="Vs Computadora" selected="true" onAction="#selectGameMode" GridPane.rowIndex="2" />
+                        <ToggleButton fx:id="vsPlayerButton" text="Vs Jugador" onAction="#selectGameMode" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    </children>
+                </GridPane>
+            </children>
+        </VBox>
+    </center>
+    <top>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3 EN RAYA" textAlignment="CENTER" wrappingWidth="236.380859375" BorderPane.alignment="CENTER">
+            <font>
+                <Font size="40.0" />
+            </font>
+        </Text>
+    </top>
 </BorderPane>

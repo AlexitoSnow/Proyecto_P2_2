@@ -7,7 +7,8 @@ public class GameSettings {
     private static GameSettings instance;
     private Player player1;
     private Player player2;
-    private boolean computerStarts; // Nuevo flag para indicar quién inicia
+    private boolean computerStarts;
+    private boolean twoPlayers;
 
     private GameSettings() {}
 
@@ -34,7 +35,6 @@ public class GameSettings {
         this.player2 = player2;
     }
 
-    // Getter y setter para computerStarts
     public boolean isComputerStarts() {
         return computerStarts;
     }
@@ -43,9 +43,18 @@ public class GameSettings {
         this.computerStarts = computerStarts;
     }
 
+    public boolean isTwoPlayers() {
+        return twoPlayers;
+    }
+
+    public void setTwoPlayers(boolean twoPlayers) {
+        this.twoPlayers = twoPlayers;
+    }
+
     public void reset() {
         player1 = null;
         player2 = null;
         computerStarts = false;
+        twoPlayers = false;
     }
 }
