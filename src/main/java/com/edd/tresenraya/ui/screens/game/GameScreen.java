@@ -27,55 +27,108 @@ public class GameScreen implements Initializable {
 
     private GameSettings settings = GameSettings.getInstance();
 
+    private boolean gameEnded = false;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        currentPlayer.setText(settings.getPlayer1().getName());
         current = settings.getPlayer1();
+        currentPlayer.setText(current.getName());
+
         board.getChildren().forEach(node -> {
             if (node instanceof Button) {
                 Button button = (Button) node;
+                button.setText(""); // limpiar por si acaso
+                button.setDisable(false); // reactivar botones
                 button.setOnAction(event -> {
+                    if (gameEnded) return;
+
                     button.setText(current.getSymbol().toString());
                     button.setDisable(true);
-                    String winner = checkWinCondition();
-                    if (winner == null) {
-                        // Switch the current player
-                        current = current.equals(settings.getPlayer1()) ? settings.getPlayer2() : settings.getPlayer1();
-                        currentPlayer.setText(current.getName());
+
+                    if (checkWinner(current.getSymbol().toString())) {
+                        gameEnded = true;
+                        showDialog("¡" + current.getName() + " gana!");
                         return;
                     }
-                    // Display win message
-                    Dialog<Button> dialog = new Dialog<>();
-                    dialog.setTitle("Game Over");
-                    dialog.setContentText("Player " + current.getName() + " wins!");
-                    dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
-                    dialog.showAndWait();
-                    AppRouter.setRoot(Routes.HOME);
-                    settings.reset();
+
+                    if (isBoardFull()) {
+                        gameEnded = true;
+                        showDialog("¡Empate!");
+                        return;
+                    }
+
+                    // Cambiar turno
+                    current = current.equals(settings.getPlayer1()) ? settings.getPlayer2() : settings.getPlayer1();
+                    currentPlayer.setText(current.getName());
                 });
             }
         });
     }
 
-    private String checkWinCondition() {
-        int xCount = 0;
-        int oCount = 0;
+    private void showDialog(String message) {
+        Dialog<Button> dialog = new Dialog<>();
+        dialog.setTitle("Resultado");
+        dialog.setContentText(message);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.showAndWait();
+        AppRouter.setRoot(Routes.HOME);
+        settings.reset();
+    }
+
+    private boolean checkWinner(String symbol) {
+        Button[][] buttons = new Button[3][3];
 
         for (Node node : board.getChildren()) {
             if (node instanceof Button) {
                 Button button = (Button) node;
-                String text = button.getText();
-                if (text.equals("X")) {
-                    xCount++;
-                } else if (text.equals("O")) {
-                    oCount++;
-                }
-                if (xCount >= 3 || oCount >= 3) {
-                    return text; // Return the winning symbol
-                }
+                Integer row = GridPane.getRowIndex(button);
+                Integer col = GridPane.getColumnIndex(button);
+                if (row == null) row = 0;
+                if (col == null) col = 0;
+                buttons[row][col] = button;
             }
         }
 
-        return null;
+        // Revisar filas, columnas y diagonales
+        for (int i = 0; i < 3; i++) {
+            if (symbol.equals(buttons[i][0].getText()) &&
+                    symbol.equals(buttons[i][1].getText()) &&
+                    symbol.equals(buttons[i][2].getText())) {
+                return true;
+            }
+
+            if (symbol.equals(buttons[0][i].getText()) &&
+                    symbol.equals(buttons[1][i].getText()) &&
+                    symbol.equals(buttons[2][i].getText())) {
+                return true;
+            }
+        }
+
+        // Diagonales
+        if (symbol.equals(buttons[0][0].getText()) &&
+                symbol.equals(buttons[1][1].getText()) &&
+                symbol.equals(buttons[2][2].getText())) {
+            return true;
+        }
+
+        if (symbol.equals(buttons[0][2].getText()) &&
+                symbol.equals(buttons[1][1].getText()) &&
+                symbol.equals(buttons[2][0].getText())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isBoardFull() {
+        for (Node node : board.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                if (button.getText().isEmpty()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
