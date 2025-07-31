@@ -20,8 +20,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
-public class GameScreen implements Initializable {
+public class GameScreen implements Initializable, AutoCloseable {
 
     @FXML
     private GridPane board;
@@ -36,6 +37,9 @@ public class GameScreen implements Initializable {
     private GameSettings settings = GameSettings.getInstance();
     private boolean gameEnded = false;
     private boolean isAIvsAI;
+    private Timer currentTimer;
+
+    private static final Logger log = Logger.getLogger(GameScreen.class.getName());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -81,13 +85,21 @@ public class GameScreen implements Initializable {
         if (isAIvsAI || current.getName().startsWith("IA") || current.getName().equals("Computer")) {
             scheduleAIMove();
         }
+
+        Platform.runLater(() -> {
+            board.getScene().getWindow().setOnCloseRequest(e -> cleanup());
+        });
     }
 
     private void scheduleAIMove() {
         setBoardEnabled(false); // Bloquea el tablero antes de que la IA piense
 
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        if (currentTimer != null) {
+            currentTimer.cancel();
+        }
+
+        currentTimer = new Timer();
+        currentTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Platform.runLater(() -> {
@@ -172,6 +184,7 @@ public class GameScreen implements Initializable {
 
     private void endGame(String message) {
         gameEnded = true;
+        cleanup();
         Dialog<Button> dialog = new Dialog<>();
         dialog.setTitle("Fin del juego");
         dialog.setContentText(message);
@@ -231,5 +244,24 @@ public class GameScreen implements Initializable {
                 button.setDisable(!enabled || !button.getText().isEmpty());
             }
         }
+    }
+
+    public void cleanup() {
+        if (currentTimer != null) {
+            currentTimer.cancel();
+            currentTimer.purge();
+            currentTimer = null;
+            log.info("Timer cancelled and purged.");
+        }
+    }
+
+    @FXML
+    public void stop() {
+        cleanup();
+    }
+
+    @Override
+    public void close() throws Exception {
+        cleanup();
     }
 }
