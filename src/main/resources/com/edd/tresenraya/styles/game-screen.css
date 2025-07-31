@@ -1,3 +1,7 @@
+.button {
+    -fx-cursor: hand;
+}
+
 .board .button {
     -fx-max-width: Infinity;
     -fx-max-height: Infinity;
