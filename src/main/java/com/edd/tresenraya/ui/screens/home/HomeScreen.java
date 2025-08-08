@@ -5,35 +5,70 @@ import com.edd.tresenraya.config.router.AppRouter;
 import com.edd.tresenraya.config.router.Routes;
 import com.edd.tresenraya.core.Player;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToggleButton;
-import javafx.fxml.Initializable;
-import java.net.URL;
-import java.util.ResourceBundle;
+import javafx.scene.control.ToggleGroup;
 
-public class HomeScreen implements Initializable{
+public class HomeScreen {
 
-    @FXML private ToggleButton xButton;
-    @FXML private ToggleButton oButton;
-    @FXML private Button startPlayerButton;
+    @FXML
+    private ToggleButton xButton;
+    @FXML
+    private ToggleButton oButton;
+    @FXML
+    private Button startPlayerButton;
+    @FXML
+    private ToggleButton vsComputerButton;
+    @FXML
+    private ToggleButton vsPlayerButton;
+    @FXML
+    private ToggleButton vsAiButton;
 
-    @FXML private ToggleButton vsComputerButton;
-    @FXML private ToggleButton vsPlayerButton;
-    @FXML private ToggleButton vsAiButton;
+    private final GameSettings settings = GameSettings.getInstance();
 
-    private GameSettings settings = GameSettings.getInstance();
+    private ToggleGroup gameModeGroup;
+    private ToggleGroup symbolGroup;
+
+    @FXML
+    public void initialize() {
+        // Grupo para modos de juego (mutua exclusión)
+        gameModeGroup = new ToggleGroup();
+        vsComputerButton.setToggleGroup(gameModeGroup);
+        vsPlayerButton.setToggleGroup(gameModeGroup);
+        vsAiButton.setToggleGroup(gameModeGroup);
+
+        // Selección por defecto
+        vsComputerButton.setSelected(true);
+
+        // Grupo para símbolos X y O
+        symbolGroup = new ToggleGroup();
+        xButton.setToggleGroup(symbolGroup);
+        oButton.setToggleGroup(symbolGroup);
+
+        xButton.setSelected(true);
+    }
 
     @FXML
     void navigateToPlay(ActionEvent event) {
+        if (gameModeGroup.getSelectedToggle() == null) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Modo de juego no seleccionado");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor selecciona un modo de juego para continuar.");
+            alert.showAndWait();
+            return; // no continuar si no hay modo seleccionado
+        }
+
         char selectedSymbol = xButton.isSelected() ? 'X' : 'O';
         boolean humanStarts = startPlayerButton.getText().equals("Human");
 
-        // Configuración IA vs IA
         if (vsAiButton.isSelected()) {
             settings.setIaVsIa(true);
             settings.setTwoPlayers(false);
-            settings.setComputerStarts(true); // Por defecto IA1 empieza
+            settings.setComputerStarts(true);
 
             Player ai1 = new Player("IA 1", selectedSymbol);
             Player ai2 = new Player("IA 2", selectedSymbol == 'X' ? 'O' : 'X');
@@ -41,7 +76,6 @@ public class HomeScreen implements Initializable{
             settings.setPlayer2(ai2);
 
         } else if (vsPlayerButton.isSelected()) {
-            // Modo 2 jugadores
             settings.setIaVsIa(false);
             settings.setTwoPlayers(true);
             settings.setComputerStarts(false);
@@ -52,7 +86,6 @@ public class HomeScreen implements Initializable{
             settings.setPlayer2(p2);
 
         } else {
-            // Jugador vs Computadora
             settings.setIaVsIa(false);
             settings.setTwoPlayers(false);
 
@@ -75,13 +108,7 @@ public class HomeScreen implements Initializable{
 
     @FXML
     void selectSymbol(ActionEvent event) {
-        if (event.getSource() == oButton) {
-            xButton.setSelected(false);
-            oButton.setSelected(true);
-        } else if (event.getSource() == xButton) {
-            oButton.setSelected(false);
-            xButton.setSelected(true);
-        }
+
     }
 
     @FXML
@@ -95,37 +122,10 @@ public class HomeScreen implements Initializable{
 
     @FXML
     void selectGameMode(ActionEvent event) {
-        Object source = event.getSource();
-
-        if (source == vsAiButton) {
-            vsAiButton.setSelected(true);
-            vsPlayerButton.setSelected(false);
-            vsComputerButton.setSelected(false);
+        if (vsAiButton.isSelected()) {
             startPlayerButton.setDisable(true);
-        } else if (source == vsPlayerButton) {
-            vsAiButton.setSelected(false);
-            vsPlayerButton.setSelected(true);
-            vsComputerButton.setSelected(false);
-            startPlayerButton.setDisable(false);
-        } else if (source == vsComputerButton) {
-            vsAiButton.setSelected(false);
-            vsPlayerButton.setSelected(false);
-            vsComputerButton.setSelected(true);
+        } else {
             startPlayerButton.setDisable(false);
         }
     }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        //  Resetea todo al volver a la pantalla de inicio
-        GameSettings.getInstance().reset();
-
-        // Asegura que un símbolo esté seleccionado por defecto (opcional)
-        xButton.setSelected(true);
-        oButton.setSelected(false);
-
-        startPlayerButton.setText("Human");
-        startPlayerButton.setDisable(false);
-    }
 }
-
-
