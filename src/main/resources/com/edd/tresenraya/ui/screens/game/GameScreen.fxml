@@ -12,10 +12,15 @@
 
 <BorderPane stylesheets="@../../styles/game-screen.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edd.tresenraya.ui.screens.game.GameScreen">
    <top>
-      <HBox maxWidth="1.7976931348623157E308" spacing="8.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" spacing="8.0" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Turno:" />
-            <Label fx:id="currentPlayer" />
+            <HBox HBox.hgrow="ALWAYS">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Turno:" />
+                  <Label fx:id="currentPlayer" />
+               </children>
+            </HBox>
+            <Label fx:id="thinkingLabel" text="Analizando siguiente movimiento..." visible="false" style="-fx-text-fill: blue;"/>
          </children>
       </HBox>
    </top>
@@ -48,4 +53,9 @@
          </children>
       </VBox>
    </center>
+   <bottom>
+      <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
+         <Button fx:id="hintButton" text="PISTA" onAction="#showHint" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+      </HBox>
+   </bottom>
 </BorderPane>
