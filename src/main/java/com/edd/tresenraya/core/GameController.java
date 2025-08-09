@@ -3,6 +3,7 @@ package com.edd.tresenraya.core;
 import com.edd.tresenraya.config.GameSettings;
 import com.edd.tresenraya.core.ai.AI;
 import com.edd.tresenraya.core.ai.GameState;
+import com.edd.tresenraya.utils.GameHistoryManager;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -122,13 +123,37 @@ public class GameController {
     private void endGame(String message, Runnable endGameAction) {
         gameEnded = true;
         cancelTimer();
-        Dialog<Button> dialog = new Dialog<>();
+
+        // Determinar el tipo de juego y el ganador
+        String gameType;
+        String winner;
+
+        if (isAIvsAI) {
+            gameType = "IA vs IA";
+        } else if (settings.isTwoPlayers()) {
+            gameType = "Jugador vs Jugador";
+        } else {
+            gameType = "Jugador vs IA";
+        }
+
+        if (message.contains("Empate")) {
+            winner = "EMPATE";
+        } else {
+            winner = current.getName();
+        }
+
+        // Guardar el registro de la partida
+        GameHistoryManager.saveGame(gameType, winner);
+
+        Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Fin del juego");
         dialog.setContentText(message);
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.showAndWait();
-        endGameAction.run();
-        settings.reset();
+
+        if (endGameAction != null) {
+            endGameAction.run();
+        }
     }
 
     private boolean checkWinner(GridPane board, String symbol) {
@@ -221,4 +246,3 @@ public class GameController {
         }
     }
 }
-
