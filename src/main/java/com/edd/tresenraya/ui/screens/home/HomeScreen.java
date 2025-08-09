@@ -4,11 +4,14 @@ import com.edd.tresenraya.config.GameSettings;
 import com.edd.tresenraya.config.router.AppRouter;
 import com.edd.tresenraya.config.router.Routes;
 import com.edd.tresenraya.core.Player;
+import com.edd.tresenraya.utils.GameHistoryManager;
+import com.edd.tresenraya.utils.GameRecord;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 
@@ -26,6 +29,8 @@ public class HomeScreen {
     private ToggleButton vsPlayerButton;
     @FXML
     private ToggleButton vsAiButton;
+    @FXML
+    private ListView<GameRecord> gameHistoryList;
 
     private final GameSettings settings = GameSettings.getInstance();
 
@@ -49,6 +54,14 @@ public class HomeScreen {
         oButton.setToggleGroup(symbolGroup);
 
         xButton.setSelected(true);
+
+        // Cargar historial
+        loadGameHistory();
+    }
+
+    private void loadGameHistory() {
+        gameHistoryList.getItems().clear();
+        gameHistoryList.getItems().addAll(GameHistoryManager.loadGameHistory());
     }
 
     @FXML
