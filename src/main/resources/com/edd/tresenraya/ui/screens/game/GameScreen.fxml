@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
 <BorderPane stylesheets="@../../styles/game-screen.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edd.tresenraya.ui.screens.game.GameScreen">
    <top>
@@ -19,14 +18,14 @@
                   <Label fx:id="currentPlayer" />
                </children>
             </HBox>
-            <Label fx:id="thinkingLabel" text="Analizando siguiente movimiento..." visible="false" style="-fx-text-fill: white;"/>
+            <Label fx:id="thinkingLabel" style="-fx-text-fill: white;" text="Analizando siguiente movimiento..." visible="false" />
          </children>
       </HBox>
    </top>
    <center>
       <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
          <children>
-            <GridPane fx:id="board" alignment="CENTER" prefHeight="300.0" prefWidth="300.0" styleClass="board" VBox.vgrow="NEVER">
+            <GridPane fx:id="board" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" styleClass="board" VBox.vgrow="NEVER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -54,7 +53,7 @@
    </center>
    <bottom>
       <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
-         <Button fx:id="hintButton" text="PISTA" onAction="#showHint"/>
+         <Button fx:id="hintButton" onAction="#showHint" text="PISTA" />
       </HBox>
    </bottom>
 </BorderPane>

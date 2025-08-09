@@ -151,6 +151,7 @@ public class GameController {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Fin del juego");
         dialog.setContentText(message);
+        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/com/edd/tresenraya/styles/home-screen.css").toExternalForm());
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.showAndWait();
 
@@ -171,22 +172,49 @@ public class GameController {
             }
         }
 
+        // Verificar filas
         for (int i = 0; i < 3; i++) {
             if (symbol.equals(buttons[i][0].getText()) &&
                     symbol.equals(buttons[i][1].getText()) &&
-                    symbol.equals(buttons[i][2].getText())) return true;
-
-            if (symbol.equals(buttons[0][i].getText()) &&
-                    symbol.equals(buttons[1][i].getText()) &&
-                    symbol.equals(buttons[2][i].getText())) return true;
+                    symbol.equals(buttons[i][2].getText())) {
+                markWinningCells(buttons[i][0], buttons[i][1], buttons[i][2]);
+                return true;
+            }
         }
 
-        return (symbol.equals(buttons[0][0].getText()) &&
+        // Verificar columnas
+        for (int i = 0; i < 3; i++) {
+            if (symbol.equals(buttons[0][i].getText()) &&
+                    symbol.equals(buttons[1][i].getText()) &&
+                    symbol.equals(buttons[2][i].getText())) {
+                markWinningCells(buttons[0][i], buttons[1][i], buttons[2][i]);
+                return true;
+            }
+        }
+
+        // Verificar diagonal principal
+        if (symbol.equals(buttons[0][0].getText()) &&
                 symbol.equals(buttons[1][1].getText()) &&
-                symbol.equals(buttons[2][2].getText())) ||
-                (symbol.equals(buttons[0][2].getText()) &&
-                        symbol.equals(buttons[1][1].getText()) &&
-                        symbol.equals(buttons[2][0].getText()));
+                symbol.equals(buttons[2][2].getText())) {
+            markWinningCells(buttons[0][0], buttons[1][1], buttons[2][2]);
+            return true;
+        }
+
+        // Verificar diagonal secundaria
+        if (symbol.equals(buttons[0][2].getText()) &&
+                symbol.equals(buttons[1][1].getText()) &&
+                symbol.equals(buttons[2][0].getText())) {
+            markWinningCells(buttons[0][2], buttons[1][1], buttons[2][0]);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void markWinningCells(Button... buttons) {
+        for (Button button : buttons) {
+            button.getStyleClass().add("winner-symbol");
+        }
     }
 
     private boolean isBoardFull(GridPane board) {

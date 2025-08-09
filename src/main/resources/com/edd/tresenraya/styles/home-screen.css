@@ -62,3 +62,59 @@ Text {
 .list-view .scroll-bar:horizontal .track {
     -fx-background-color: transparent;
 }
+
+/* Estilos para diálogos */
+.dialog-pane {
+    -fx-background-color: #2B2B2B;
+}
+
+.dialog-pane .label {
+    -fx-text-fill: white;
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: #2B2B2B;
+}
+
+.dialog-pane:header .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.dialog-pane .button-bar .container {
+    -fx-background-color: #2B2B2B;
+}
+
+.dialog-pane > .content.label {
+    -fx-padding: 15px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+/* Estilo específico para los botones del diálogo */
+.dialog-pane .button {
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: #9370DB;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 5 15;
+}
+
+.dialog-pane .button:hover {
+    -fx-background-color: #9370DB;
+}
+
+/* Asegurar que el fondo del diálogo sea completamente oscuro */
+.dialog-pane > *.button-bar > *.container {
+    -fx-background-color: #2B2B2B;
+}
+
+.dialog-pane > *.content.label {
+    -fx-background-color: #2B2B2B;
+    -fx-padding: 15px;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
