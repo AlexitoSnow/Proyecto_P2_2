@@ -1,3 +1,64 @@
+.root {
+    -fx-background-color: #2B2B2B;
+}
+
+Text {
+    -fx-fill: white;
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
 .button, .toggle-button {
     -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: #9370DB;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 5 15;
+}
+
+.button:hover, .toggle-button:hover {
+    -fx-background-color: #9370DB;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #9370DB;
+    -fx-font-weight: bold;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+    -fx-border-color: #9370DB;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-padding: 2;
+}
+
+.list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.list-view .list-cell:filled:selected {
+    -fx-background-color: #9370DB44;
+}
+
+.list-view .scroll-bar:vertical,
+.list-view .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar:vertical .thumb,
+.list-view .scroll-bar:horizontal .thumb {
+    -fx-background-color: #9370DB88;
+    -fx-background-radius: 5px;
+}
+
+.list-view .scroll-bar:vertical .track,
+.list-view .scroll-bar:horizontal .track {
+    -fx-background-color: transparent;
 }
