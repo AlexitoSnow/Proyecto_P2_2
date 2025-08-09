@@ -71,6 +71,9 @@ public class GameController {
         setBoardEnabled(board, false);
         cancelTimer();
 
+        // Timer aleatorio entre 1 y 3 segundos
+        int thinkingTime = 1000 + (int)(Math.random() * 2000);
+
         currentTimer = new Timer();
         currentTimer.schedule(new TimerTask() {
             @Override
@@ -82,7 +85,7 @@ public class GameController {
                     }
                 });
             }
-        }, 500);
+        }, thinkingTime);
     }
 
     private int getAIDepth(Player ai) {
