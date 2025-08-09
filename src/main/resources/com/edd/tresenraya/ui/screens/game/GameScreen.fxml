@@ -16,11 +16,10 @@
          <children>
             <HBox HBox.hgrow="ALWAYS">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Turno:" />
                   <Label fx:id="currentPlayer" />
                </children>
             </HBox>
-            <Label fx:id="thinkingLabel" text="Analizando siguiente movimiento..." visible="false" style="-fx-text-fill: blue;"/>
+            <Label fx:id="thinkingLabel" text="Analizando siguiente movimiento..." visible="false" style="-fx-text-fill: white;"/>
          </children>
       </HBox>
    </top>
@@ -55,7 +54,7 @@
    </center>
    <bottom>
       <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
-         <Button fx:id="hintButton" text="PISTA" onAction="#showHint" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+         <Button fx:id="hintButton" text="PISTA" onAction="#showHint"/>
       </HBox>
    </bottom>
 </BorderPane>

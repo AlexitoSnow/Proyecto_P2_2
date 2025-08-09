@@ -1,5 +1,33 @@
+.root {
+    -fx-background-color: #2B2B2B;
+}
+
+Text {
+    -fx-fill: white;
+}
+
+.label {
+    -fx-text-fill: white;
+}
+
 .button {
     -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: #9370DB;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-width: 1px;
+    -fx-padding: 5 15;
+}
+
+.button:hover {
+    -fx-background-color: #9370DB;
+}
+
+/* Estilos específicos para el tablero */
+.board {
+    -fx-background-color: transparent;
 }
 
 .board .button {
@@ -7,24 +35,46 @@
     -fx-max-height: Infinity;
     -fx-background-color: transparent;
     -fx-opacity: 1;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+    -fx-font-size: 24px;
+    -fx-padding: 0;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
 }
 
 .board .button:disabled {
     -fx-opacity: 1;
     -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+
+.board .button.hint {
+    -fx-background-color: #9370DB33;
 }
 
 .bottom-border {
-    -fx-border-color: black;
-    -fx-border-width: 0 0 2px 0; /* Solo el borde inferior */
+    -fx-border-color: white !important;
+    -fx-border-width: 0 0 2px 0 !important;
 }
 
 .right-border {
-    -fx-border-color: black;
-    -fx-border-width: 0 2px 0 0; /* Solo el borde derecho */
+    -fx-border-color: white !important;
+    -fx-border-width: 0 2px 0 0 !important;
 }
 
 .bottom-right-border {
-    -fx-border-color: black;
-    -fx-border-width: 0 2px 2px 0; /* Solo el borde inferior y derecho */
+    -fx-border-color: white !important;
+    -fx-border-width: 0 2px 2px 0 !important;
+}
+
+.board .button.winner-symbol {
+    -fx-background-color: #9370DB !important;
+    -fx-text-fill: white;
+    -fx-font-weight: bold !important;
+    -fx-opacity: 0.8 !important;
+}
+
+#thinkingLabel {
+    -fx-text-fill: #9370DB;
 }

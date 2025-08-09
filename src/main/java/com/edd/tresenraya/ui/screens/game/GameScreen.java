@@ -39,12 +39,19 @@ public class GameScreen implements Initializable {
                 Button button = (Button) node;
                 button.setText("");
                 button.setDisable(false);
-                button.setOnAction(event -> controller.processHumanMove(
-                        button,
-                        board,
-                        this::updateTurnLabel,
-                        this::goHome
-                ));
+                button.setOnAction(event -> {
+                    // Limpiar el hint al hacer click en cualquier botón
+                    if (highlightedButton != null) {
+                        highlightedButton.getStyleClass().remove("hint");
+                        highlightedButton = null;
+                    }
+                    controller.processHumanMove(
+                            button,
+                            board,
+                            this::updateTurnLabel,
+                            this::goHome
+                    );
+                });
             }
         });
 
@@ -69,7 +76,7 @@ public class GameScreen implements Initializable {
     private void showHint() {
         if (highlightedButton != null) {
             // Remover el highlight anterior si existe
-            highlightedButton.setStyle("");
+            highlightedButton.getStyleClass().remove("hint");
         }
 
         // Obtener el estado actual del tablero
@@ -97,7 +104,7 @@ public class GameScreen implements Initializable {
                     int col = GridPane.getColumnIndex(node) == null ? 0 : GridPane.getColumnIndex(node);
 
                     if (row == bestMove[0] && col == bestMove[1] && btn.getText().isEmpty()) {
-                        btn.setStyle("-fx-background-color: #FFEB3B50;"); // Amarillo pálido con 50% de opacidad
+                        btn.getStyleClass().add("hint");
                         highlightedButton = btn;
                     }
                 }
@@ -120,7 +127,7 @@ public class GameScreen implements Initializable {
 
             // Limpiar el highlight cuando cambia el turno
             if (highlightedButton != null) {
-                highlightedButton.setStyle("");
+                highlightedButton.getStyleClass().remove("hint");
                 highlightedButton = null;
             }
         });
