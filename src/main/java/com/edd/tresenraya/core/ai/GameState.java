@@ -6,6 +6,15 @@ public class GameState {
 
     private char[][] board;
     private char currentTurn;
+    private int[] ultimoMovimiento;
+
+    public void setUltimoMovimiento(int[] mov) {
+        this.ultimoMovimiento = mov;
+    }
+
+    public int[] getUltimoMovimiento() {
+        return ultimoMovimiento;
+    }
 
     public GameState(char[][] board, char currentTurn) {
         this.board = board;
@@ -68,6 +77,8 @@ public class GameState {
     public int evaluateUtility(char computerSymbol) {
         char opponent = (computerSymbol == 'X') ? 'O' : 'X';
 
+
+
         int pc = countPossibleLines(computerSymbol);
         int po = countPossibleLines(opponent);
 
@@ -97,6 +108,4 @@ public class GameState {
     private char opponentOf(char symbol) {
         return symbol == 'X' ? 'O' : 'X';
     }
-
-
 }

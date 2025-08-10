@@ -17,9 +17,6 @@ public class Player {
         }
     }
 
-    public int utilidad(Table tablero){
-        return 0;
-    }
 
     public String getName() {
         return name;
@@ -29,7 +26,4 @@ public class Player {
         return symbol;
     }
 
-    public void setSymbol(Character symbol) {
-        this.symbol = symbol;
-    }
 }

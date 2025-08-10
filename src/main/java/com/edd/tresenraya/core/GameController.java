@@ -72,7 +72,7 @@ public class GameController {
         cancelTimer();
 
         // Timer aleatorio entre 1 y 3 segundos
-        int thinkingTime = 1000 + (int)(Math.random() * 2000);
+        int thinkingTime = 1000 + (int)(Math.random() * 1500);
 
         currentTimer = new Timer();
         currentTimer.schedule(new TimerTask() {
