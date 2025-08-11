@@ -76,13 +76,24 @@ public class GameState {
 
     public int evaluateUtility(char computerSymbol) {
         char opponent = (computerSymbol == 'X') ? 'O' : 'X';
+        // verificando victoria en tablero actual(el que se analiza, no en el que se juega)
+        if (getWinner() == computerSymbol) return 10000;
 
+        // verificando derrota en tablero actual(el que se analiza, no en el que se juega)
+        if (getWinner() == opponent) return -10000;
+
+        // verificando victoria inminente
+        if (hasTwoInLineAndOneEmpty(computerSymbol)) return 5000;
+
+        // verificando derrota inminente
+        if (hasTwoInLineAndOneEmpty(opponent)) return -5000;
 
 
         int pc = countPossibleLines(computerSymbol);
         int po = countPossibleLines(opponent);
-
         return pc - po;
+
+
     }
 
     private int countPossibleLines(char symbol) {
@@ -103,6 +114,47 @@ public class GameState {
         if (diag2.indexOf(opponentOf(symbol)) == -1) count++;
 
         return count;
+    }
+
+    private boolean hasTwoInLineAndOneEmpty(char symbol) {
+        // Chequea filas
+        for (int i = 0; i < 3; i++) {
+            int countSymbol = 0, countEmpty = 0;
+            for (int j = 0; j < 3; j++) {
+                if (board[i][j] == symbol) countSymbol++;
+                else if (board[i][j] == ' ') countEmpty++;
+            }
+            if (countSymbol == 2 && countEmpty == 1) return true;
+        }
+
+        // Chequea columnas
+        for (int j = 0; j < 3; j++) {
+            int countSymbol = 0, countEmpty = 0;
+            for (int i = 0; i < 3; i++) {
+                if (board[i][j] == symbol) countSymbol++;
+                else if (board[i][j] == ' ') countEmpty++;
+            }
+            if (countSymbol == 2 && countEmpty == 1) return true;
+        }
+
+        // Diagonal principal
+        int countSymbol = 0, countEmpty = 0;
+        for (int i = 0; i < 3; i++) {
+            if (board[i][i] == symbol) countSymbol++;
+            else if (board[i][i] == ' ') countEmpty++;
+        }
+        if (countSymbol == 2 && countEmpty == 1) return true;
+
+        // Diagonal secundaria
+        countSymbol = 0; countEmpty = 0;
+        for (int i = 0; i < 3; i++) {
+            int j = 2 - i;
+            if (board[i][j] == symbol) countSymbol++;
+            else if (board[i][j] == ' ') countEmpty++;
+        }
+        if (countSymbol == 2 && countEmpty == 1) return true;
+
+        return false;
     }
 
     private char opponentOf(char symbol) {
