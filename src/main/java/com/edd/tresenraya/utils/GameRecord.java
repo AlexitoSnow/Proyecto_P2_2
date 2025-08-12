@@ -29,11 +29,11 @@ public class GameRecord {
 
     /**
      * Devuelve una representación en texto del registro.
-     *
-     * @return String con el formato "TIPO GANADOR"
+     * Usa un espaciado fijo entre el tipo de juego y el ganador.
      */
     @Override
     public String toString() {
-        return String.format("%s %s", gameType, winner);
+        // Usar un número fijo de espacios para alinear el texto
+        return String.format("%-20s%s", gameType, winner);
     }
 }

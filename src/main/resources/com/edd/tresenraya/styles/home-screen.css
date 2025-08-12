@@ -41,6 +41,12 @@ Text {
 .list-view .list-cell {
     -fx-background-color: transparent;
     -fx-text-fill: white;
+    -fx-font-family: monospace;  /* Fuente monoespaciada para mejor alineación */
+    -fx-padding: 5 10;          /* Padding vertical y horizontal */
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: rgba(128, 0, 128, 0.3);
 }
 
 .list-view .list-cell:filled:selected {
@@ -61,6 +67,29 @@ Text {
 .list-view .scroll-bar:vertical .track,
 .list-view .scroll-bar:horizontal .track {
     -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: purple;
+    -fx-background-radius: 5;
+}
+
+.list-view .scroll-bar:vertical .increment-button,
+.list-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar:vertical .increment-arrow,
+.list-view .scroll-bar:vertical .decrement-arrow {
+    -fx-background-color: white;
 }
 
 /* Estilos para diálogos */
