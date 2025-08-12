@@ -9,15 +9,6 @@ public class Player {
         this.symbol = symbol;
     }
 
-    public void marcarCasilla(Box[] casillas, int index) {
-        if (casillas[index].isFree) {
-            casillas[index].setSymbol(symbol);
-        } else {
-            throw new IllegalStateException("Casilla ocupada");
-        }
-    }
-
-
     public String getName() {
         return name;
     }

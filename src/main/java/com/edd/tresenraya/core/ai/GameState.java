@@ -2,6 +2,10 @@ package com.edd.tresenraya.core.ai;
 
 import java.util.*;
 
+/**
+ * Representa un estado del juego para el algoritmo Minimax.
+ * Incluye el tablero actual y métodos de evaluación de estados.
+ */
 public class GameState {
 
     private char[][] board;
@@ -33,6 +37,11 @@ public class GameState {
         return getWinner() != ' ' || getAvailableMoves().isEmpty();
     }
 
+    /**
+     * Obtiene el ganador del estado actual, si existe.
+     *
+     * @return Símbolo del ganador (X u O) o espacio si no hay ganador
+     */
     public char getWinner() {
         for (int i = 0; i < 3; i++) {
             if (board[i][0] != ' ' &&
@@ -74,6 +83,16 @@ public class GameState {
         return new GameState(newBoard, nextTurn);
     }
 
+    /**
+     * Evalúa la utilidad del estado actual para el símbolo dado.
+     * Valores positivos favorecen al jugador, negativos al oponente.
+     *
+     * @param computerSymbol Símbolo del jugador a evaluar (X o O)
+     * @return Valor numérico que representa la utilidad del estado:
+     *         10000: Victoria
+     *         5000: Victoria inminente (dos en línea con espacio)
+     *         <5000: Basado en líneas posibles
+     */
     public int evaluateUtility(char computerSymbol) {
         char opponent = (computerSymbol == 'X') ? 'O' : 'X';
         // verificando victoria en tablero actual(el que se analiza, no en el que se juega)
@@ -96,6 +115,13 @@ public class GameState {
 
     }
 
+    /**
+     * Cuenta el número de líneas posibles para un símbolo.
+     * Una línea es posible si no contiene el símbolo del oponente.
+     *
+     * @param symbol Símbolo a evaluar (X o O)
+     * @return Número de líneas posibles
+     */
     private int countPossibleLines(char symbol) {
         int count = 0;
 
@@ -116,6 +142,13 @@ public class GameState {
         return count;
     }
 
+    /**
+     * Verifica si hay dos símbolos en línea con un espacio vacío.
+     * Útil para detectar victorias o derrotas inminentes.
+     *
+     * @param symbol Símbolo a verificar (X o O)
+     * @return true si existe una línea con dos símbolos y un espacio
+     */
     private boolean hasTwoInLineAndOneEmpty(char symbol) {
         // Chequea filas
         for (int i = 0; i < 3; i++) {
@@ -157,6 +190,12 @@ public class GameState {
         return false;
     }
 
+    /**
+     * Obtiene el símbolo del oponente.
+     *
+     * @param symbol Símbolo del jugador actual
+     * @return Símbolo del oponente (X si es O, O si es X)
+     */
     private char opponentOf(char symbol) {
         return symbol == 'X' ? 'O' : 'X';
     }

@@ -4,8 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Implementación del algoritmo Minimax para la IA del juego.
+ */
 public class AI {
-
+    /**
+     * Determina el mejor movimiento posible para la IA.
+     *
+     * @param state Estado actual del juego
+     * @param computerSymbol Símbolo que usa la IA (X o O)
+     * @param difficultyDepth Profundidad máxima de búsqueda
+     * @return Coordenadas del mejor movimiento [fila, columna]
+     */
     public static int[] bestMove(GameState state, char computerSymbol, int difficultyDepth) {
 
         DecisionTreeNode root = construirArbol(state, computerSymbol, difficultyDepth, true);
@@ -33,6 +43,15 @@ public class AI {
         return null;
     }
 
+    /**
+     * Construye el árbol de decisiones para el algoritmo Minimax.
+     *
+     * @param estado Estado actual del juego
+     * @param computerSymbol Símbolo de la IA
+     * @param difficultyDepth Profundidad restante de búsqueda
+     * @param turnoComputadora True si es turno de la IA
+     * @return Nodo raíz del árbol de decisiones
+     */
     private static DecisionTreeNode construirArbol(GameState estado, char computerSymbol, int difficultyDepth, boolean turnoComputadora) {
         DecisionTreeNode nodo = new DecisionTreeNode(estado, difficultyDepth);
 
@@ -52,6 +71,15 @@ public class AI {
         return nodo;
     }
 
+    /**
+     * Implementa el algoritmo Minimax para evaluar los nodos del árbol.
+     *
+     * @param nodo Nodo actual a evaluar
+     * @param depth Profundidad restante
+     * @param isMaximizing True si es turno del maximizador
+     * @param computerSymbol Símbolo de la IA
+     * @return Valor de utilidad del nodo
+     */
     private static int minimaxNodo(DecisionTreeNode nodo, int depth, boolean isMaximizing, char computerSymbol) {
 
         if (nodo.getChildren().isEmpty() || depth == 0) {

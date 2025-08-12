@@ -15,6 +15,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 
+/**
+ * Controlador de la pantalla principal.
+ * Maneja la configuración del juego y la navegación inicial.
+ */
 public class HomeScreen {
 
     @FXML
@@ -37,6 +41,9 @@ public class HomeScreen {
     private ToggleGroup gameModeGroup;
     private ToggleGroup symbolGroup;
 
+    /**
+     * Inicializa la pantalla principal y configura los controles.
+     */
     @FXML
     public void initialize() {
         // Grupo para modos de juego (mutua exclusión)
@@ -64,6 +71,9 @@ public class HomeScreen {
         gameHistoryList.getItems().addAll(GameHistoryManager.loadGameHistory());
     }
 
+    /**
+     * Inicia el juego con la configuración seleccionada.
+     */
     @FXML
     void navigateToPlay(ActionEvent event) {
         if (gameModeGroup.getSelectedToggle() == null) {
@@ -133,12 +143,30 @@ public class HomeScreen {
         }
     }
 
-    @FXML
-    void selectGameMode(ActionEvent event) {
+    /**
+     * Actualiza el estado de los controles según el modo de juego seleccionado.
+     */
+    private void updateControlsState() {
         if (vsAiButton.isSelected()) {
             startPlayerButton.setDisable(true);
         } else {
             startPlayerButton.setDisable(false);
         }
+    }
+
+    /**
+     * Maneja los cambios en la selección del modo de juego.
+     */
+    @FXML
+    void selectGameMode(ActionEvent event) {
+        updateControlsState();
+    }
+
+    /**
+     * Actualiza la visualización del historial de partidas.
+     */
+    private void updateGameHistory() {
+        gameHistoryList.getItems().clear();
+        gameHistoryList.getItems().addAll(GameHistoryManager.loadGameHistory());
     }
 }

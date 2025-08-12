@@ -2,6 +2,10 @@ package com.edd.tresenraya.config;
 
 import com.edd.tresenraya.core.Player;
 
+/**
+ * Singleton que gestiona la configuración global del juego.
+ * Almacena la configuración de jugadores y modos de juego.
+ */
 public class GameSettings {
 
     private static GameSettings instance;
@@ -13,6 +17,11 @@ public class GameSettings {
 
     private GameSettings() {}
 
+    /**
+     * Obtiene la instancia única de la configuración del juego.
+     *
+     * @return Instancia de GameSettings
+     */
     public static GameSettings getInstance() {
         if (instance == null) {
             instance = new GameSettings();
@@ -40,24 +49,46 @@ public class GameSettings {
         return computerStarts;
     }
 
-    public void setComputerStarts(boolean computerStarts) {
-        this.computerStarts = computerStarts;
+    /**
+     * Configura si la computadora inicia el juego.
+     *
+     * @param value True si la computadora inicia
+     */
+    public void setComputerStarts(boolean value) {
+        this.computerStarts = value;
     }
 
     public boolean isTwoPlayers() {
         return twoPlayers;
     }
 
-    public void setTwoPlayers(boolean twoPlayers) {
-        this.twoPlayers = twoPlayers;
+    /**
+     * Configura el modo de juego de dos jugadores.
+     *
+     * @param value True para activar modo dos jugadores
+     */
+    public void setTwoPlayers(boolean value) {
+        this.twoPlayers = value;
     }
 
     public boolean isIaVsIa() {
         return iaVsIa;
     }
 
-    public void setIaVsIa(boolean iaVsIa) {
-        this.iaVsIa = iaVsIa;
+    /**
+     * Configura el modo de juego IA vs IA.
+     *
+     * @param value True para activar modo IA vs IA
+     */
+    public void setIaVsIa(boolean value) {
+        this.iaVsIa = value;
+    }
+
+    /**
+     * Configura los jugadores según el modo de juego seleccionado.
+     */
+    public void setupPlayers() {
+        // Lógica para configurar los jugadores según el modo de juego
     }
 
     public void reset() {

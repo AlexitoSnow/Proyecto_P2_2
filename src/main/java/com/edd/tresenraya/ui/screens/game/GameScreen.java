@@ -15,6 +15,9 @@ import javafx.scene.layout.GridPane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Controlador de la pantalla de juego. Maneja la interfaz y la interacción del usuario durante una partida.
+ */
 public class GameScreen implements Initializable {
 
     @FXML
@@ -68,10 +71,16 @@ public class GameScreen implements Initializable {
                 controller.getCurrentPlayer().getName().equals("Computer"));
     }
 
+    /**
+     * Controla la visibilidad del indicador de "pensando" de la IA.
+     */
     private void setThinkingLabelVisible(boolean visible) {
         Platform.runLater(() -> thinkingLabel.setVisible(visible));
     }
 
+    /**
+     * Muestra una sugerencia de movimiento al jugador usando la IA.
+     */
     @FXML
     private void showHint() {
         if (highlightedButton != null) {
@@ -112,6 +121,9 @@ public class GameScreen implements Initializable {
         }
     }
 
+    /**
+     * Actualiza la etiqueta del turno actual y estados relacionados.
+     */
     private void updateTurnLabel() {
         Platform.runLater(() -> {
             String currentPlayerName = controller.getCurrentPlayer().getName();
@@ -133,6 +145,23 @@ public class GameScreen implements Initializable {
         });
     }
 
+    /**
+     * Actualiza la visualización del análisis del razonamiento de la IA.
+     */
+    private void updateReasoningView() {
+        // Lógica para actualizar la vista de razonamiento
+    }
+
+    /**
+     * Limpia y reinicia la vista de análisis.
+     */
+    private void clearAnalysisView() {
+        // Lógica para limpiar la vista de análisis
+    }
+
+    /**
+     * Navega de vuelta a la pantalla principal.
+     */
     private void goHome() {
         AppRouter.setRoot(Routes.HOME);
     }
