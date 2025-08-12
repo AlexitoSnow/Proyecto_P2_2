@@ -5,8 +5,8 @@ package com.edd.tresenraya.utils;
  * Almacena el tipo de juego y el resultado.
  */
 public class GameRecord {
-    private String gameType;
-    private String winner;
+    private final String gameType;
+    private final String winner;
 
     /**
      * Crea un nuevo registro de partida.
@@ -17,14 +17,6 @@ public class GameRecord {
     public GameRecord(String gameType, String winner) {
         this.gameType = gameType;
         this.winner = winner;
-    }
-
-    public String getGameType() {
-        return gameType;
-    }
-
-    public String getWinner() {
-        return winner;
     }
 
     /**

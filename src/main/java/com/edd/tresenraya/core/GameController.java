@@ -11,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.layout.GridPane;
 
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -97,7 +98,7 @@ public class GameController {
             public void run() {
                 Platform.runLater(() -> {
                     if (!gameEnded && (current.getName().startsWith("IA") || current.getName().equals("Computer"))) {
-                        playComputerMove(board, getAIDepth(current), updateTurn, endGameAction);
+                        playComputerMove(board, getAIDepth(), updateTurn, endGameAction);
                         setBoardEnabled(board, true);
                     }
                 });
@@ -108,10 +109,9 @@ public class GameController {
     /**
      * Determina la profundidad de búsqueda para la IA.
      *
-     * @param ai Jugador IA
      * @return Profundidad de búsqueda aleatoria entre 2 y 4
      */
-    private int getAIDepth(Player ai) {
+    private int getAIDepth() {
         return 2 + (int) (Math.random() * 3);
     }
 
@@ -188,7 +188,7 @@ public class GameController {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setTitle("Fin del juego");
         dialog.setContentText(message);
-        dialog.getDialogPane().getStylesheets().add(getClass().getResource("/com/edd/tresenraya/styles/home-screen.css").toExternalForm());
+        dialog.getDialogPane().getStylesheets().add(Objects.requireNonNull(getClass().getResource("/com/edd/tresenraya/styles/home-screen.css")).toExternalForm());
         dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
         dialog.showAndWait();
 

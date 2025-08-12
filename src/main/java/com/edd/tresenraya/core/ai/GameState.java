@@ -8,8 +8,8 @@ import java.util.*;
  */
 public class GameState {
 
-    private char[][] board;
-    private char currentTurn;
+    private final char[][] board;
+    private final char currentTurn;
     private int[] ultimoMovimiento;
 
     public void setUltimoMovimiento(int[] mov) {
@@ -23,14 +23,6 @@ public class GameState {
     public GameState(char[][] board, char currentTurn) {
         this.board = board;
         this.currentTurn = currentTurn;
-    }
-
-    public char[][] getBoard() {
-        return board;
-    }
-
-    public char getCurrentTurn() {
-        return currentTurn;
     }
 
     public boolean isTerminal() {

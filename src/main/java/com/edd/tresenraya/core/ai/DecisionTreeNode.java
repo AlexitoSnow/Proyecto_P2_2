@@ -7,8 +7,8 @@ import java.util.*;
  * Almacena el estado del juego y sus posibles movimientos.
  */
 public class DecisionTreeNode {
-    private GameState state;
-    private List<DecisionTreeNode> children;
+    private final GameState state;
+    private final List<DecisionTreeNode> children;
     int utility; // solo para nodos hoja
     int depth;
 

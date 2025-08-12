@@ -24,7 +24,7 @@ public class AI {
         List<int[]> bestMoves = new ArrayList<>();
 
         for (DecisionTreeNode child : root.getChildren()) {
-            int value = minimaxNodo(child, difficultyDepth - 1, false, computerSymbol);
+            int value = minimaxNodo(child, difficultyDepth - 1, false);
 
             if (value > bestValue) {
                 bestValue = value;
@@ -77,10 +77,9 @@ public class AI {
      * @param nodo Nodo actual a evaluar
      * @param depth Profundidad restante
      * @param isMaximizing True si es turno del maximizador
-     * @param computerSymbol Símbolo de la IA
      * @return Valor de utilidad del nodo
      */
-    private static int minimaxNodo(DecisionTreeNode nodo, int depth, boolean isMaximizing, char computerSymbol) {
+    private static int minimaxNodo(DecisionTreeNode nodo, int depth, boolean isMaximizing) {
 
         if (nodo.getChildren().isEmpty() || depth == 0) {
             return nodo.utility;
@@ -89,13 +88,13 @@ public class AI {
         if (isMaximizing) {
             int mejor = Integer.MIN_VALUE;
             for (DecisionTreeNode hijo : nodo.getChildren()) {
-                mejor = Math.max(mejor, minimaxNodo(hijo, depth - 1, false, computerSymbol));
+                mejor = Math.max(mejor, minimaxNodo(hijo, depth - 1, false));
             }
             return mejor;
         } else {
             int peor = Integer.MAX_VALUE;
             for (DecisionTreeNode hijo : nodo.getChildren()) {
-                peor = Math.min(peor, minimaxNodo(hijo, depth - 1, true, computerSymbol));
+                peor = Math.min(peor, minimaxNodo(hijo, depth - 1, true));
             }
             return peor;
         }

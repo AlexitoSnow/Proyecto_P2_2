@@ -146,37 +146,9 @@ public class GameScreen implements Initializable {
     }
 
     /**
-     * Actualiza la visualización del análisis del razonamiento de la IA.
-     */
-    private void updateReasoningView() {
-        // Lógica para actualizar la vista de razonamiento
-    }
-
-    /**
-     * Limpia y reinicia la vista de análisis.
-     */
-    private void clearAnalysisView() {
-        // Lógica para limpiar la vista de análisis
-    }
-
-    /**
      * Navega de vuelta a la pantalla principal.
      */
     private void goHome() {
         AppRouter.setRoot(Routes.HOME);
     }
-
-//    @FXML
-//    public void stop() {
-//        cleanup();
-//    }
-//
-//    private void cleanup() {
-//
-//    }
-//
-//    @Override
-//    public void close() throws Exception {
-//        cleanup();
-//    }
 }

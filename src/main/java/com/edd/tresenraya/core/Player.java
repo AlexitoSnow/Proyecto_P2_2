@@ -1,8 +1,8 @@
 package com.edd.tresenraya.core;
 
 public class Player {
-    private String name;
-    private Character symbol; // X  O
+    private final String name;
+    private final Character symbol; // X  O
 
     public Player(String name, Character symbol) {
         this.name = name;

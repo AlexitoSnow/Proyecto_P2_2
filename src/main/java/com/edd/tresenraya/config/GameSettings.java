@@ -11,11 +11,11 @@ public class GameSettings {
     private static GameSettings instance;
     private Player player1;
     private Player player2;
-    private boolean computerStarts;
     private boolean twoPlayers;
     private boolean iaVsIa;
 
-    private GameSettings() {}
+    private GameSettings() {
+    }
 
     /**
      * Obtiene la instancia única de la configuración del juego.
@@ -45,17 +45,12 @@ public class GameSettings {
         this.player2 = player2;
     }
 
-    public boolean isComputerStarts() {
-        return computerStarts;
-    }
-
     /**
      * Configura si la computadora inicia el juego.
      *
      * @param value True si la computadora inicia
      */
     public void setComputerStarts(boolean value) {
-        this.computerStarts = value;
     }
 
     public boolean isTwoPlayers() {
@@ -82,20 +77,5 @@ public class GameSettings {
      */
     public void setIaVsIa(boolean value) {
         this.iaVsIa = value;
-    }
-
-    /**
-     * Configura los jugadores según el modo de juego seleccionado.
-     */
-    public void setupPlayers() {
-        // Lógica para configurar los jugadores según el modo de juego
-    }
-
-    public void reset() {
-        player1 = null;
-        player2 = null;
-        computerStarts = false;
-        twoPlayers = false;
-        iaVsIa = false;
     }
 }

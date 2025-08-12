@@ -6,7 +6,6 @@ import com.edd.tresenraya.config.router.Routes;
 import com.edd.tresenraya.core.Player;
 import com.edd.tresenraya.utils.GameHistoryManager;
 import com.edd.tresenraya.utils.GameRecord;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.fxml.FXML;
@@ -39,7 +38,6 @@ public class HomeScreen {
     private final GameSettings settings = GameSettings.getInstance();
 
     private ToggleGroup gameModeGroup;
-    private ToggleGroup symbolGroup;
 
     /**
      * Inicializa la pantalla principal y configura los controles.
@@ -56,7 +54,7 @@ public class HomeScreen {
         vsComputerButton.setSelected(true);
 
         // Grupo para símbolos X y O
-        symbolGroup = new ToggleGroup();
+        ToggleGroup symbolGroup = new ToggleGroup();
         xButton.setToggleGroup(symbolGroup);
         oButton.setToggleGroup(symbolGroup);
 
@@ -75,7 +73,7 @@ public class HomeScreen {
      * Inicia el juego con la configuración seleccionada.
      */
     @FXML
-    void navigateToPlay(ActionEvent event) {
+    void navigateToPlay() {
         if (gameModeGroup.getSelectedToggle() == null) {
             Alert alert = new Alert(AlertType.WARNING);
             alert.setTitle("Modo de juego no seleccionado");
@@ -130,12 +128,7 @@ public class HomeScreen {
     }
 
     @FXML
-    void selectSymbol(ActionEvent event) {
-
-    }
-
-    @FXML
-    void toggleStartPlayer(ActionEvent event) {
+    void toggleStartPlayer() {
         if (startPlayerButton.getText().equals("Human")) {
             startPlayerButton.setText("Computer");
         } else {
@@ -147,26 +140,14 @@ public class HomeScreen {
      * Actualiza el estado de los controles según el modo de juego seleccionado.
      */
     private void updateControlsState() {
-        if (vsAiButton.isSelected()) {
-            startPlayerButton.setDisable(true);
-        } else {
-            startPlayerButton.setDisable(false);
-        }
+        startPlayerButton.setDisable(vsAiButton.isSelected());
     }
 
     /**
      * Maneja los cambios en la selección del modo de juego.
      */
     @FXML
-    void selectGameMode(ActionEvent event) {
+    void selectGameMode() {
         updateControlsState();
-    }
-
-    /**
-     * Actualiza la visualización del historial de partidas.
-     */
-    private void updateGameHistory() {
-        gameHistoryList.getItems().clear();
-        gameHistoryList.getItems().addAll(GameHistoryManager.loadGameHistory());
     }
 }
