@@ -14,6 +14,9 @@ import javafx.scene.layout.GridPane;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Controlador principal del juego. Maneja la lógica del juego y la interacción entre jugadores.
+ */
 public class GameController {
 
     private final GameSettings settings = GameSettings.getInstance();
@@ -24,6 +27,9 @@ public class GameController {
     private boolean isAIvsAI;
     private Timer currentTimer;
 
+    /**
+     * Inicializa los jugadores según la configuración actual del juego.
+     */
     public void initPlayers() {
         player1 = settings.getPlayer1();
         player2 = settings.getPlayer2();
@@ -40,6 +46,14 @@ public class GameController {
         return isAIvsAI;
     }
 
+    /**
+     * Procesa el movimiento de un jugador humano.
+     *
+     * @param button Botón presionado en el tablero
+     * @param board Tablero de juego
+     * @param updateTurn Callback para actualizar el turno
+     * @param endGameAction Callback para acciones de fin de juego
+     */
     public void processHumanMove(Button button, GridPane board, Runnable updateTurn, Runnable endGameAction) {
         if (gameEnded || !button.getText().isEmpty() || isAIvsAI) return;
 
@@ -63,6 +77,13 @@ public class GameController {
         }
     }
 
+    /**
+     * Programa un movimiento de la IA con un retraso aleatorio.
+     *
+     * @param board Tablero de juego
+     * @param updateTurn Callback para actualizar el turno
+     * @param endGameAction Callback para acciones de fin de juego
+     */
     public void scheduleAIMove(GridPane board, Runnable updateTurn, Runnable endGameAction) {
         setBoardEnabled(board, false);
         cancelTimer();
@@ -84,10 +105,24 @@ public class GameController {
         }, thinkingTime);
     }
 
+    /**
+     * Determina la profundidad de búsqueda para la IA.
+     *
+     * @param ai Jugador IA
+     * @return Profundidad de búsqueda aleatoria entre 2 y 4
+     */
     private int getAIDepth(Player ai) {
         return 2 + (int) (Math.random() * 3);
     }
 
+    /**
+     * Ejecuta el movimiento de la computadora usando el algoritmo Minimax.
+     *
+     * @param board Tablero de juego
+     * @param depth Profundidad de búsqueda
+     * @param updateTurn Callback para actualizar el turno
+     * @param endGameAction Callback para acciones de fin de juego
+     */
     private void playComputerMove(GridPane board, int depth, Runnable updateTurn, Runnable endGameAction) {
         char[][] currentBoard = extractCurrentBoard(board);
         GameState state = new GameState(currentBoard, current.getSymbol());
@@ -119,6 +154,12 @@ public class GameController {
         updateTurn.run();
     }
 
+    /**
+     * Finaliza el juego y muestra el resultado.
+     *
+     * @param message Mensaje de fin de juego
+     * @param endGameAction Callback para acciones posteriores
+     */
     private void endGame(String message, Runnable endGameAction) {
         gameEnded = true;
         cancelTimer();
@@ -156,6 +197,13 @@ public class GameController {
         }
     }
 
+    /**
+     * Verifica si hay un ganador en el tablero actual.
+     *
+     * @param board Tablero de juego
+     * @param symbol Símbolo a verificar (X o O)
+     * @return true si hay un ganador
+     */
     private boolean checkWinner(GridPane board, String symbol) {
         Button[][] buttons = new Button[3][3];
         for (Node node : board.getChildren()) {
@@ -207,12 +255,23 @@ public class GameController {
         return false;
     }
 
+    /**
+     * Marca las celdas ganadoras en el tablero.
+     *
+     * @param buttons Botones que forman la línea ganadora
+     */
     private void markWinningCells(Button... buttons) {
         for (Button button : buttons) {
             button.getStyleClass().add("winner-symbol");
         }
     }
 
+    /**
+     * Verifica si el tablero está lleno (empate).
+     *
+     * @param board Tablero de juego
+     * @return true si no hay más movimientos posibles
+     */
     private boolean isBoardFull(GridPane board) {
         for (Node node : board.getChildren()) {
             if (node instanceof Button && ((Button) node).getText().isEmpty()) {
@@ -222,6 +281,12 @@ public class GameController {
         return true;
     }
 
+    /**
+     * Habilita o deshabilita los botones del tablero.
+     *
+     * @param board Tablero de juego
+     * @param enabled true para habilitar, false para deshabilitar
+     */
     private void setBoardEnabled(GridPane board, boolean enabled) {
         for (Node node : board.getChildren()) {
             if (node instanceof Button) {
@@ -231,6 +296,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Extrae el estado actual del tablero como una matriz.
+     *
+     * @param board Tablero de juego
+     * @return Matriz que representa el estado del tablero
+     */
     private char[][] extractCurrentBoard(GridPane board) {
         char[][] boardArray = new char[3][3];
         for (Node node : board.getChildren()) {
@@ -247,6 +318,14 @@ public class GameController {
         return boardArray;
     }
 
+    /**
+     * Coloca un símbolo en una posición específica del tablero.
+     *
+     * @param board Tablero de juego
+     * @param row Fila
+     * @param col Columna
+     * @param symbol Símbolo a colocar
+     */
     private void placeSymbolOnBoard(GridPane board, int row, int col, String symbol) {
         for (Node node : board.getChildren()) {
             if (node instanceof Button) {
@@ -265,6 +344,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Cancela el temporizador actual de la IA.
+     */
     public void cancelTimer() {
         if (currentTimer != null) {
             currentTimer.cancel();
