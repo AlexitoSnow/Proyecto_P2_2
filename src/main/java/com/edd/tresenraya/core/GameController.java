@@ -29,11 +29,7 @@ public class GameController {
         player2 = settings.getPlayer2();
         isAIvsAI = settings.isIaVsIa();
 
-        if (settings.isComputerStarts()) {
-            current = player1;
-        } else {
-            current = player2;
-        }
+        current = player1;
     }
 
     public Player getCurrentPlayer() {
