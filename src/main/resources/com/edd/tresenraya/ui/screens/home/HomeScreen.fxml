@@ -49,7 +49,6 @@
                     <Text text="¿Quién comienza?" GridPane.rowIndex="1" />
                     <Button fx:id="startPlayerButton" maxWidth="1.7976931348623157E308" onAction="#toggleStartPlayer" text="Human" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-                    <Text text="Modo de juego:" GridPane.rowIndex="2" />
                     <ToggleButton fx:id="vsComputerButton" maxWidth="1.7976931348623157E308" onAction="#selectGameMode" text="Vs Computadora" GridPane.rowIndex="2" />
                     <ToggleButton fx:id="vsPlayerButton" maxWidth="1.7976931348623157E308" onAction="#selectGameMode" text="Vs Jugador" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
